@@ -1,0 +1,28 @@
+{
+  "name": "pruebamongo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/GitFornieles/PruebaMongo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GitFornieles/PruebaMongo/issues"
+  },
+  "homepage": "https://github.com/GitFornieles/PruebaMongo#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.4",
+    "nodemon": "^2.0.22"
+  }
+}
