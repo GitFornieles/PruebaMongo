@@ -24,6 +24,7 @@ const UserSchema = new mongoose.Schema(
     currentCart: { type: mongoose.Schema.Types.ObjectId, ref: "Cart" },
     purchasedCarts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Cart" }],
     selling: [{ type: mongoose.Schema.Types.ObjectId, ref: "Article" }],
+    isAdmin: { type: Boolean, default: false },
   },
   //METHODS
   {
@@ -39,6 +40,68 @@ const UserSchema = new mongoose.Schema(
       newCart: function (number) {
         this.currentCart = number;
       },
+      addFav: function (number) {
+        let position;
+        if (this.favoriteProducts[0] === null) {
+          number.map((element, i) => (this.favoriteProducts[i] = element));
+        } else {
+          position = this.favoriteProducts.length;
+          number.map(
+            (element, i) => (this.favoriteProducts[i + position] = element)
+          );
+        }
+      },
+      remFav: function (number) {
+        let temp;
+        if (this.favoriteProducts.length === 1) this.favoriteProducts[0] = null;
+        else
+          temp = this.favoriteProducts.filter((element) => element != number);
+        this.favoriteProducts = temp;
+      },
+      addFollowed: function (number) {
+        let position;
+        if (this.followedArticles[0] === null) {
+          number.map((element, i) => (this.followedArticles[i] = element));
+        } else {
+          position = this.followedArticles.length;
+          number.map(
+            (element, i) => (this.followedArticles[i + position] = element)
+          );
+        }
+      },
+      remFollowed: function (number) {
+        let temp;
+        if (this.followedArticles.length === 1) this.followedArticles[0] = null;
+        else
+          temp = this.followedArticles.filter((element) => element != number);
+        this.followedArticles = temp;
+      },
+      addSelling: function (number) {
+        let position;
+        if (this.selling[0] === null) {
+          number.map((element, i) => (this.selling[i] = element));
+        } else {
+          position = this.selling.length;
+          number.map((element, i) => (this.selling[i + position] = element));
+        }
+      },
+      remSelling: function (number) {
+        let temp;
+        if (this.selling.length === 1) this.selling[0] = null;
+        else temp = this.selling.filter((element) => element != number);
+        this.selling = temp;
+      },
+      setAdmin:function (){
+        this.isAdmin=true
+      },
+      remAdmin:function () {
+        this.isAdmin=false
+      },
+      newPurchasedCart:function(){
+        this.purchasedCarts.push(this.currentCart)
+        this.currentCart=null
+      }
+      //newPurchasedCart
     },
     //statics:{}
   }
@@ -58,7 +121,7 @@ UserSchema.pre("save", function (next) {
         console.log(err);
         next();
       });
-  } else next()
+  } else next();
 });
 
 module.exports = mongoose.model("User", UserSchema);
