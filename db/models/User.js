@@ -40,7 +40,7 @@ const UserSchema = new mongoose.Schema(
       newCart: function (number) {
         this.currentCart = number;
       },
-      addFav: function (number) {
+      addFav: function (number) { //OJO que está para recibir array de ids
         let position;
         if (this.favoriteProducts[0] === null) {
           number.map((element, i) => (this.favoriteProducts[i] = element));
@@ -51,14 +51,14 @@ const UserSchema = new mongoose.Schema(
           );
         }
       },
-      remFav: function (number) {
+      remFav: function (number) { //OJO que está para recibir array de ids
         let temp;
         if (this.favoriteProducts.length === 1) this.favoriteProducts[0] = null;
         else
           temp = this.favoriteProducts.filter((element) => element != number);
         this.favoriteProducts = temp;
       },
-      addFollowed: function (number) {
+      addFollowed: function (number) { //OJO que está para recibir array de ids
         let position;
         if (this.followedArticles[0] === null) {
           number.map((element, i) => (this.followedArticles[i] = element));
@@ -69,23 +69,22 @@ const UserSchema = new mongoose.Schema(
           );
         }
       },
-      remFollowed: function (number) {
+      remFollowed: function (number) { //OJO que está para recibir array de ids
         let temp;
         if (this.followedArticles.length === 1) this.followedArticles[0] = null;
         else
           temp = this.followedArticles.filter((element) => element != number);
         this.followedArticles = temp;
       },
-      addSelling: function (number) {
+      addSelling: function (number) { // Recibe un único Article_id
         let position;
         if (this.selling[0] === null) {
-          number.map((element, i) => (this.selling[i] = element));
+          this.selling[0]=number;
         } else {
-          position = this.selling.length;
-          number.map((element, i) => (this.selling[i + position] = element));
+          this.selling.push(number)
         }
       },
-      remSelling: function (number) {
+      remSelling: function (number) { // Recibe un único Article_id
         let temp;
         if (this.selling.length === 1) this.selling[0] = null;
         else temp = this.selling.filter((element) => element != number);

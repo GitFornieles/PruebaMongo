@@ -13,7 +13,7 @@ const createUser = async (req) => {
 const loginUser = async (req) => {
   try {
     const { email, password } = req.body;
-    let loggedUser = await User.find({ email: email });
+    let loggedUser = await User.find({ email: email }).populate(["followedArticles","favoriteProducts","selling"]);
     loggedUser = loggedUser[0];
     if (!loggedUser) return 00;
     else {
